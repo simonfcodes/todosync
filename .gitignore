@@ -1,0 +1,10 @@
+# Mac system files
+.DS_Store
+**/.DS_Store
+
+# IntelliJ
+.idea/
+*.iml
+
+# Build output
+**/target/
