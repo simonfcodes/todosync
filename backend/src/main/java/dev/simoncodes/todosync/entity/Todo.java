@@ -20,6 +20,9 @@ public class Todo {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "list_id")
     private TodoList todoList;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
     private String title;
     private String description;
     @Column(name = "is_complete")
