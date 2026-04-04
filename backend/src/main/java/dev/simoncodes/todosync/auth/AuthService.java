@@ -1,5 +1,6 @@
 package dev.simoncodes.todosync.auth;
 
+import dev.simoncodes.todosync.auth.dto.RefreshRequestDto;
 import dev.simoncodes.todosync.config.JwtProperties;
 import dev.simoncodes.todosync.auth.dto.LoginRequestDto;
 import dev.simoncodes.todosync.auth.dto.LoginResponseDto;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.Instant;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
@@ -27,11 +29,20 @@ public class AuthService {
         User user = userRepo.findByEmail(request.email()).orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED));
         boolean verified = encoder.matches(request.password(), user.getPasswordHash());
         if (!verified) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
-
         refreshTokenService.revokeAllUserTokens(user.getId());
+        return generateLoginResponse(user);
+    }
+
+    public LoginResponseDto refresh(RefreshRequestDto request) {
+        RefreshToken rt = refreshTokenService.validateRefreshToken(request.refreshToken());
+        LoginResponseDto response = generateLoginResponse(rt.getUser());
+        refreshTokenService.revokeToken(request.refreshToken());
+        return response;
+    }
+
+    private LoginResponseDto generateLoginResponse(User user) {
         String accessToken = jwtService.generateAccessToken(user.getId());
         String refreshToken = jwtService.generateRefreshToken(user.getId());
-
         Instant refreshTokenExpiry = jwtService.extractClaims(refreshToken).getExpiration().toInstant();
         RefreshToken rt = refreshTokenService.createRefreshToken(refreshToken, user, refreshTokenExpiry);
 

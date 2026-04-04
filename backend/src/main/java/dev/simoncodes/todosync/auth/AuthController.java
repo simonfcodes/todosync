@@ -2,6 +2,7 @@ package dev.simoncodes.todosync.auth;
 
 import dev.simoncodes.todosync.auth.dto.LoginRequestDto;
 import dev.simoncodes.todosync.auth.dto.LoginResponseDto;
+import dev.simoncodes.todosync.auth.dto.RefreshRequestDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,12 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDto> loginUser(@Valid @RequestBody LoginRequestDto request) {
         LoginResponseDto response = authService.login(request);
-        return ResponseEntity.status(HttpStatus.OK).body(response);
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<LoginResponseDto> refreshUser(@Valid @RequestBody RefreshRequestDto request) {
+        LoginResponseDto response = authService.refresh(request);
+        return ResponseEntity.ok(response);
     }
 }
