@@ -1,4 +1,4 @@
-package dev.simoncodes.todosync.service;
+package dev.simoncodes.todosync.auth;
 
 import dev.simoncodes.todosync.config.JwtProperties;
 import io.jsonwebtoken.Claims;

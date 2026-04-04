@@ -1,8 +1,8 @@
-package dev.simoncodes.todosync.service;
+package dev.simoncodes.todosync.auth;
 
 import dev.simoncodes.todosync.config.JwtProperties;
-import dev.simoncodes.todosync.dto.LoginRequestDto;
-import dev.simoncodes.todosync.dto.LoginResponseDto;
+import dev.simoncodes.todosync.auth.dto.LoginRequestDto;
+import dev.simoncodes.todosync.auth.dto.LoginResponseDto;
 import dev.simoncodes.todosync.entity.RefreshToken;
 import dev.simoncodes.todosync.entity.User;
 import dev.simoncodes.todosync.repository.UserRepository;
@@ -28,6 +28,7 @@ public class AuthService {
         boolean verified = encoder.matches(request.password(), user.getPasswordHash());
         if (!verified) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
 
+        refreshTokenService.revokeAllUserTokens(user.getId());
         String accessToken = jwtService.generateAccessToken(user.getId());
         String refreshToken = jwtService.generateRefreshToken(user.getId());
 

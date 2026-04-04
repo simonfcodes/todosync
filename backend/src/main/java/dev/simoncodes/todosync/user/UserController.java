@@ -1,8 +1,7 @@
-package dev.simoncodes.todosync.controller;
+package dev.simoncodes.todosync.user;
 
-import dev.simoncodes.todosync.dto.UserRegisterRequestDto;
-import dev.simoncodes.todosync.dto.UserResponseDto;
-import dev.simoncodes.todosync.service.UserService;
+import dev.simoncodes.todosync.user.dto.UserRegisterRequestDto;
+import dev.simoncodes.todosync.user.dto.UserResponseDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequiredArgsConstructor

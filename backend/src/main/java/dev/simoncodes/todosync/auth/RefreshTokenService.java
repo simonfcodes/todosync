@@ -1,4 +1,4 @@
-package dev.simoncodes.todosync.service;
+package dev.simoncodes.todosync.auth;
 
 import dev.simoncodes.todosync.entity.RefreshToken;
 import dev.simoncodes.todosync.entity.User;
@@ -10,7 +10,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @RequiredArgsConstructor

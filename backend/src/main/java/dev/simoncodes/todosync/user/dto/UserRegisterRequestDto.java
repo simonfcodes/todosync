@@ -1,4 +1,4 @@
-package dev.simoncodes.todosync.dto;
+package dev.simoncodes.todosync.user.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

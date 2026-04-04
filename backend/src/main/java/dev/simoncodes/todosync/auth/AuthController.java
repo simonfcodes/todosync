@@ -1,8 +1,7 @@
-package dev.simoncodes.todosync.controller;
+package dev.simoncodes.todosync.auth;
 
-import dev.simoncodes.todosync.dto.LoginRequestDto;
-import dev.simoncodes.todosync.dto.LoginResponseDto;
-import dev.simoncodes.todosync.service.AuthService;
+import dev.simoncodes.todosync.auth.dto.LoginRequestDto;
+import dev.simoncodes.todosync.auth.dto.LoginResponseDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

@@ -1,4 +1,4 @@
-package dev.simoncodes.todosync.dto;
+package dev.simoncodes.todosync.auth.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

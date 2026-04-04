@@ -1,14 +1,13 @@
-package dev.simoncodes.todosync.service;
+package dev.simoncodes.todosync.user;
 
-import dev.simoncodes.todosync.dto.UserRegisterRequestDto;
-import dev.simoncodes.todosync.dto.UserResponseDto;
+import dev.simoncodes.todosync.user.dto.UserRegisterRequestDto;
+import dev.simoncodes.todosync.user.dto.UserResponseDto;
 import dev.simoncodes.todosync.entity.User;
 import dev.simoncodes.todosync.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
