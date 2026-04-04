@@ -1,6 +1,7 @@
 package dev.simoncodes.todosync.config;
 
 import dev.simoncodes.todosync.auth.JwtAuthFilter;
+import jakarta.servlet.DispatcherType;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -24,6 +25,7 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests((auth) -> auth
                     .requestMatchers("/api/users/register", "/api/auth/login", "/api/auth/refresh", "/error").permitAll()
+                    .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
                     .anyRequest().authenticated())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
