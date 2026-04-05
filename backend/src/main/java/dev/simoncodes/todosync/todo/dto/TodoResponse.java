@@ -9,7 +9,7 @@ import java.time.Instant;
 import java.util.UUID;
 
 public record TodoResponse(
-        String todoId,
+        String id,
         String listId,
         String title,
         String description,

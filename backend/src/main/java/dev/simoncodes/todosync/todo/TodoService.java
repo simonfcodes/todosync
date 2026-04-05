@@ -4,7 +4,12 @@ import dev.simoncodes.todosync.entity.Todo;
 import dev.simoncodes.todosync.entity.User;
 import dev.simoncodes.todosync.repository.TodoListRepository;
 import dev.simoncodes.todosync.repository.TodoRepository;
+import dev.simoncodes.todosync.sync.SyncService;
+import dev.simoncodes.todosync.sync.dtos.SyncPayload;
+import dev.simoncodes.todosync.sync.enums.ActionType;
+import dev.simoncodes.todosync.sync.enums.EntityType;
 import dev.simoncodes.todosync.todo.dto.CreateTodoRequest;
+import dev.simoncodes.todosync.todo.dto.TodoDeleteResponse;
 import dev.simoncodes.todosync.todo.dto.TodoResponse;
 import dev.simoncodes.todosync.todo.dto.UpdateTodoRequest;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +26,8 @@ public class TodoService {
 
     private final TodoRepository todoRepo;
     private final TodoListRepository todoListRepo;
+    private final SyncService syncService;
+
     private final String NOT_FOUND_ERROR = "Todo not found with provided id.";
 
     public List<TodoResponse> getTodosForUser(UUID userId, UUID listId) {
@@ -50,7 +57,14 @@ public class TodoService {
                 .withPriority(request.priority())
                 .withDueDate(request.dueDate())
                 .withTodoList(listId == null ? null : todoListRepo.getReferenceById(listId));
-        return TodoResponse.from(todoRepo.save(todo));
+        TodoResponse response = TodoResponse.from(todoRepo.save(todo));
+        SyncPayload payload = new SyncPayload(
+                EntityType.TODO,
+                ActionType.CREATED,
+                response
+        );
+        syncService.sendSyncMessage(user.getId(), payload);
+        return response;
     }
 
     @SuppressWarnings("OptionalAssignedToNull")
@@ -72,12 +86,25 @@ public class TodoService {
         if (request.priority() != null) {
             todo.setPriority(request.priority());
         }
-        return TodoResponse.from(todoRepo.save(todo));
+        TodoResponse response = TodoResponse.from(todoRepo.save(todo));
+        SyncPayload payload = new SyncPayload(
+                EntityType.TODO,
+                ActionType.UPDATED,
+                response
+        );
+        syncService.sendSyncMessage(userId, payload);
+        return response;
     }
 
     public void deleteTodo(UUID userId, UUID todoId) {
         Todo todo = getTodoAndVerifyOwnership(userId, todoId);
         todoRepo.delete(todo);
+        SyncPayload payload = new SyncPayload(
+                EntityType.TODO,
+                ActionType.DELETED,
+                TodoDeleteResponse.of(todoId)
+        );
+        syncService.sendSyncMessage(userId, payload);
     }
 
     private Todo getTodoAndVerifyOwnership(UUID userId, UUID todoId) {

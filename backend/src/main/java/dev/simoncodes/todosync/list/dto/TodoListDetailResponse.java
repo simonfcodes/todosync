@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.UUID;
 
 public record TodoListDetailResponse(
-        String listId,
+        String id,
         String name,
         Instant createdAt,
         List<TodoResponse> todos

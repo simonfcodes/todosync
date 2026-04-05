@@ -7,7 +7,7 @@ import java.time.Instant;
 import java.util.UUID;
 
 public record TodoListResponse(
-        String listId,
+        String id,
         String name,
         Instant createdAt
 ) {
