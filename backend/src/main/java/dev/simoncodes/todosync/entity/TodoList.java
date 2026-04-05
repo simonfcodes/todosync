@@ -27,4 +27,14 @@ public class TodoList {
     private void setDefaultCreatedAt() {
         this.setCreatedAt(Instant.now());
     }
+
+    public TodoList withUser(User user) {
+        this.user = user;
+        return this;
+    }
+
+    public TodoList withName(String name) {
+        this.name = name;
+        return this;
+    }
 }

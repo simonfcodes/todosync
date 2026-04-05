@@ -1,12 +1,14 @@
 package dev.simoncodes.todosync.user;
 
 import dev.simoncodes.todosync.entity.User;
+import lombok.Getter;
 import lombok.NonNull;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.List;
 
+@Getter
 public class UserDetailsAdapter implements UserDetails {
 
     private final User user;

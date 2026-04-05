@@ -10,10 +10,12 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface TodoRepository extends JpaRepository<Todo, UUID> {
+    List<Todo> findAllByUserId(UUID userId);
     List<Todo> findAllByPriorityAndUserId(Priority priority, UUID userId);
     List<Todo> findAllByCompleteTrueAndUserId(UUID userId);
     List<Todo> findAllByCompleteFalseAndUserId(UUID userId);
     List<Todo> findAllByDueDateAfterAndUserId(Instant timestamp, UUID userId);
     List<Todo> findAllByDueDateBeforeAndUserId(Instant timestamp, UUID userId);
     List<Todo> findAllByTodoListId(UUID todoListId);
+    List<Todo> findAllByUserIdAndTodoListId(UUID userId, UUID todoListId);
 }

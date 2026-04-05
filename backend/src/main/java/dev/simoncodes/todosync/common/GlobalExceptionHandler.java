@@ -1,5 +1,6 @@
 package dev.simoncodes.todosync.common;
 
+import dev.simoncodes.todosync.id.InvalidIdException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -41,10 +42,21 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleResponseStatus(ResponseStatusException ex) {
         ErrorResponse errorResponse = new ErrorResponse(
                 ex.getStatusCode().value(),
-                ex.getMessage(),
+                ex.getReason(),
                 null
         );
         return ResponseEntity.status(ex.getStatusCode()).body(errorResponse);
+    }
+
+    @ExceptionHandler(InvalidIdException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseBody
+    public ErrorResponse handleInvalidIdException(InvalidIdException ex) {
+        return new ErrorResponse(
+                HttpStatus.NOT_FOUND.value(),
+                "Resource with provided ID not found",
+                null
+        );
     }
 
     @ExceptionHandler(Exception.class)

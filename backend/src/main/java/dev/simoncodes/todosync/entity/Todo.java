@@ -28,11 +28,47 @@ public class Todo {
     @Column(name = "is_complete")
     private Boolean complete = false;
     @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "priority_level")
     private Priority priority;
     private Instant dueDate;
     private int sortOrder;
     private Instant createdAt;
     private Instant updatedAt;
+
+    public Todo withTodoList(TodoList todoList) {
+        this.todoList = todoList;
+        return this;
+    }
+
+    public Todo withUser(User user) {
+        this.user = user;
+        return this;
+    }
+
+    public Todo withTitle(String title) {
+        this.title = title;
+        return this;
+    }
+
+    public Todo withDescription(String description) {
+        this.description = description;
+        return this;
+    }
+
+    public Todo withPriority(Priority priority) {
+        this.priority = priority;
+        return this;
+    }
+
+    public Todo withDueDate(Instant dueDate) {
+        this.dueDate = dueDate;
+        return this;
+    }
+
+    public Todo withSortOrder(int sortOrder) {
+        this.sortOrder = sortOrder;
+        return this;
+    }
 
     @PrePersist
     private void setDefaultCreatedAndUpdatedAt() {

@@ -2,7 +2,7 @@ spring:
   application:
     name: backend
   datasource:
-    url: jdbc:postgresql://localhost:5432/todosync
+    url: jdbc:postgresql://localhost:5432/todosync?stringtype=unspecified
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
   jpa:
