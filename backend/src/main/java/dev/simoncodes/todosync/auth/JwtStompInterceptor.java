@@ -9,6 +9,7 @@ import org.springframework.messaging.MessageDeliveryException;
 import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
@@ -19,7 +20,7 @@ public class JwtStompInterceptor implements ChannelInterceptor {
 
     @Override
     public Message<?> preSend(@Nullable Message<?> message, @Nullable MessageChannel channel) {
-        StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
+        StompHeaderAccessor accessor = StompHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
         if (accessor.getCommand() == StompCommand.CONNECT) {
             String authHeader = accessor.getFirstNativeHeader("Authorization");
             if (authHeader == null || !authHeader.startsWith("Bearer ")) {
@@ -30,6 +31,7 @@ public class JwtStompInterceptor implements ChannelInterceptor {
                 Claims claims = jwtService.extractClaims(token);
                 String userId = claims.getSubject();
                 accessor.setUser(() -> userId);
+                System.out.println("STOMP DEBUG: Set principal to: " + accessor.getUser().getName());
             } catch (Exception ex) {
                 throw new MessageDeliveryException("Unable to parse provided JWT token");
             }

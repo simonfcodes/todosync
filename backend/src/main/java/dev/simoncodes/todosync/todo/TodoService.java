@@ -67,8 +67,9 @@ public class TodoService {
         return response;
     }
 
-    @SuppressWarnings("OptionalAssignedToNull")
     public TodoResponse updateTodo(UUID userId, UUID todoId, UpdateTodoRequest request) {
+        System.out.println("DEBUG dueDate value: " + request.dueDate());
+
         Todo todo = getTodoAndVerifyOwnership(userId, todoId);
         if (request.title() != null) {
             todo.setTitle(request.title());
