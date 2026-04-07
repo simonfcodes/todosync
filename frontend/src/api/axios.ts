@@ -1,6 +1,8 @@
 import axios from 'axios'
 import { clearTokens, getAccessToken, getRefreshToken, storeTokens } from '../auth/tokenStorage'
 
+const EXCLUDED_ENDPOINTS: string[] = ['/auth']
+
 let refreshPromise: Promise<void> | null = null
 
 const api = axios.create({
@@ -9,6 +11,7 @@ const api = axios.create({
 })
 
 api.interceptors.request.use(config => {
+    console.log('Outgoing request:', config.method?.toUpperCase(), config.url)
     const accessToken = getAccessToken()
     if (accessToken) {
         config.headers.Authorization = `Bearer ${accessToken}`
@@ -17,11 +20,15 @@ api.interceptors.request.use(config => {
 })
 
 api.interceptors.response.use(response => response, async error => {
-    if (error.response && error.response.status === 401) {        
+    if (error.response && error.response.status === 401 && !isExcludedEndpoint(error.config.url)) {
         return unauthorizedAccess(error)
     }
     return Promise.reject(error)
 })
+
+const isExcludedEndpoint = (url: string): boolean => {
+    return EXCLUDED_ENDPOINTS.some(endpoint => url.includes(endpoint))
+}
 
 const unauthorizedAccess = async (error: any) => {
     try {

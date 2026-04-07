@@ -85,7 +85,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode}) => {
             console.error('Registration failed:', error)
             throw error
         }
-        
     }
 
     return (

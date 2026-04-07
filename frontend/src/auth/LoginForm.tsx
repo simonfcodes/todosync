@@ -10,7 +10,6 @@ export const LoginForm = () => {
 
     const { login } = useAuth()
     
-
     const handleSubmit = async (e: React.SyntheticEvent) => {
         e.preventDefault()
         setIsSubmitting(true)
@@ -24,6 +23,7 @@ export const LoginForm = () => {
             setIsSubmitting(false)
         }
     }
+    
     return (
         <>
             <div className="flex items-center justify-center min-h-screen bg-gray-100">
