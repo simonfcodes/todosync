@@ -28,6 +28,6 @@ public class UserService {
         newUser.setEmail(request.email());
         newUser.setPasswordHash(encodedPassword);
         newUser = userRepo.save(newUser);
-        return new UserResponseDto(newUser.getId(), newUser.getEmail());
+        return UserResponseDto.from(newUser);
     }
 }
